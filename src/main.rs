@@ -229,6 +229,9 @@ mod tests {
         assert_eq!(m["commands"], json!(["/gate"]));
     }
 
+    /// Serializes tests that mutate the process-wide GRAY_HOME env var.
+    static ENV_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
     #[test]
     fn glob_matcher() {
         assert!(glob_match("git-*", "git-foo"));
@@ -244,6 +247,7 @@ mod tests {
     #[test]
     fn deny_allow_roundtrip() {
         // Use a scratch GRAY_HOME so the test never touches the real list.
+        let _env = ENV_LOCK.lock().unwrap();
         let dir = std::env::temp_dir().join(format!("gray-gate-test-{}", std::process::id()));
         unsafe { std::env::set_var("GRAY_HOME", &dir) };
 
@@ -269,6 +273,7 @@ mod tests {
 
     #[test]
     fn missing_file_denies_nothing() {
+        let _env = ENV_LOCK.lock().unwrap();
         let dir = std::env::temp_dir().join(format!("gray-gate-empty-{}", std::process::id()));
         unsafe { std::env::set_var("GRAY_HOME", &dir) };
         let r = call("tool/before", json!({"name": "bash", "args": {}, "session": {}}));
@@ -279,6 +284,7 @@ mod tests {
 
     #[test]
     fn comments_and_blanks_ignored() {
+        let _env = ENV_LOCK.lock().unwrap();
         let dir = std::env::temp_dir().join(format!("gray-gate-cfg-{}", std::process::id()));
         unsafe { std::env::set_var("GRAY_HOME", &dir) };
         std::fs::create_dir_all(dir.join("tool-gate")).unwrap();
