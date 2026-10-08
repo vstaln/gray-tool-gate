@@ -1,12 +1,17 @@
-# gray-tool-gate
+<p align="center">
+  <img src="assets/gray-logo.svg" alt="gray" width="96">
+</p>
+<h1 align="center">gray-tool-gate</h1>
+<p align="center">A persisted glob deny-list that blocks tool calls before they run.</p>
+<p align="center">
+  <a href="https://github.com/vstaln/gray-tool-gate/blob/main/LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+  <img alt="gray plugin" src="https://img.shields.io/badge/gray-plugin-7aa2f7.svg">
+  <img alt="rust" src="https://img.shields.io/badge/built%20with-rust-orange.svg">
+</p>
 
-A persisted deny-list for tools.
-
-A sidecar plugin for [gray](https://github.com/vstaln/gray). Port of pi's
-`tools.ts` (MIT), flattened to a sidecar: instead of an interactive TUI
-selector, `tool/before` checks every tool call's `name` against
-`~/.gray/tool-gate/deny.txt` — one pattern per line, `#` comments, `*`/`?`
-globs (`git-*` matches `git-foo`).
+A persisted deny-list for tools. `tool/before` checks every tool call's `name`
+against `~/.gray/tool-gate/deny.txt` — one pattern per line, `#` comments,
+`*`/`?` globs (`git-*` matches `git-foo`).
 
 A match answers `{"decision":"deny"}` with a reason pointing at
 `/gate allow`. This is a guard: it fails closed only on an explicit match —
@@ -41,3 +46,7 @@ gray account publish    # check → build → release → publish to the gray re
 
 Bump `version` in `Cargo.toml` before each `publish`; the registry refuses to
 republish a version.
+
+---
+Part of the [gray](https://github.com/vstaln/gray) plugin ecosystem —
+the open-source AI agent harness. <https://gray.alignment.id>
