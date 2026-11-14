@@ -22,6 +22,7 @@ fn manifest() -> Value {
         "version": env!("CARGO_PKG_VERSION"),
         "protocol": "2.0",
         "tools": [],
+        "description": "deny tools by name, permanently",
         "commands": ["/gate"],
         "command_descriptions": {"/gate": "deny tools by name, permanently"},
         "hooks": ["tool/before"],
